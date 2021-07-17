@@ -19,11 +19,17 @@
      <!-- Main Input For Receiving Query to our ML -->
     <form action="{{ url_for('predict')}}"method="post">
     	<input type="text" name="Pclass" placeholder="Pclass" required="required" />
-        <input type="text" name="Sex_female" placeholder="Sex_female" required="required" />		
-        <input type="text" name="Sex_male" placeholder="Sex_male" required="required" />		
-		<input type="text" name="Embarked_C" placeholder="Embarked_C" required="required" />
-		<input type="text" name="Embarked_Q" placeholder="Embarked_Q" required="required" />
-		<input type="text" name="Embarked_S" placeholder="Embarked_S" required="required" />
+		<select name="Gender"  required="required">
+		    <option value="Male">Male</option>
+            <option value="Female">Female</option>
+		</select>	
+		<select name="Embarked"  required="required">
+		    <option value="C">C</option>
+			<option value="Q">Q</option>
+			<option value="S">S</option>
+		</select>	
+            
+        	
 		
 
         <button type="submit" class="btn btn-primary btn-block btn-large">Predict</button>
