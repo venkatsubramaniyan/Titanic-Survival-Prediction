@@ -4,6 +4,12 @@
 # In[ ]:
 
 
+#!/usr/bin/env python
+# coding: utf-8
+
+# In[ ]:
+
+
 import numpy as np
 from flask import Flask, request, jsonify, render_template
 import pickle
@@ -19,23 +25,79 @@ def home():
 def predict():
     '''
     For rendering results on HTML GUI
+    
     '''
-    int_features = [int(x) for x in request.form.values()]
-    final_features = [np.array(int_features)]
-    
-    prediction = model.predict(final_features)
-    
+    if request.method == 'POST':
+         Pclass = int(request.form['Pclass'])
+         Gender=request.form['Gender']
+         if(Gender=='Male'):
+            Sex_male=1
+            Sex_female=0
+         
+         if(Gender=='Female'):
+            Sex_male=0
+            Sex_female=1
+        
+         Embarked=request.form['Embarked']
+         if(Embarked=='C'):
+            Embarked_C=1
+            Embarked_Q=0
+            Embarked_S=0
+         if(Embarked=='Q'): 
+            Embarked_C=0
+            Embarked_Q=1
+            Embarked_S=0
 
-    output = int(prediction[0])
+         if(Embarked=='S'): 
+            Embarked_C=0
+            Embarked_Q=0
+            Embarked_S=1
+            
+         prediction = model.predict([[Pclass,Sex_female,Sex_male,Embarked_C,Embarked_Q,Embarked_S]])
+         output = int(prediction[0])
+         if output==1:
+            text="Survived"
+         else:
+            text='Not Survived'
+            
+         return render_template('index.html', prediction_text=text)
     
-    if output==1:
-        text="Survived"
+    
     else:
-        text='Not Survived'
-    
-    
+        return render_template('index.html')
 
-    return render_template('index.html', prediction_text=text)
+        
+         
+            
+            
+        
+        
+        
+           
+            
+            
+                
+                
+            
+                
+                
+            
+           
+
+
+
+      
+            
+
+
+            
+
+            
+
+
+
+            
+
 
 @app.route('/predict_api',methods=['POST'])
 def predict_api():
@@ -50,4 +112,16 @@ def predict_api():
 
 if __name__ == "__main__":
     app.run(debug=True)
+
+
+# In[ ]:
+
+
+
+
+
+# In[ ]:
+
+
+
 
